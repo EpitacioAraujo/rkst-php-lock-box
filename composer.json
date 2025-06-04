@@ -1,0 +1,15 @@
+{
+    "name": "epitas/app",
+    "autoload": {
+        "psr-4": {
+            "Epitas\\App\\": "src/"
+        },
+        "files": [
+            "src/Utils/Functions.php",
+            "src/Utils/Render.php"
+        ]
+    },
+    "require": {
+        "php": "^8.4"
+    }
+}
