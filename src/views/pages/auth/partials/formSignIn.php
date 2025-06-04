@@ -20,6 +20,12 @@
     ];
 ?>
 
+<div class="mb-5" >
+    <p class="text-xl font-bold text-base-100">Bem vindo de volta!</strong></p>
+
+    <p class="text-base-100">Favor, informe suas credênciais</p>
+</div>
+
 <form class="flex flex-col" method="post" action="/auth/signin">
     <?php if ($error_message && strlen($error_message)): ?>
         <div class="text-red-800">

@@ -1,6 +1,7 @@
 <?php
 
 use Epitas\App\Controllers\AuthController;
+use Epitas\App\Controllers\DashboardController;
 use Epitas\App\Utils\Router;
 use Epitas\App\Utils\Container;
 use Epitas\App\Controllers\IndexController;
@@ -46,5 +47,12 @@ Router::get(
     path: '/signout',
     action: function () use ($container) {
         return AuthController::signOut();
+    }
+);
+
+Router::get(
+    path: '/dashboard',
+    action: function () use ($container) {
+        return DashboardController::index();
     }
 );

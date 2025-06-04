@@ -17,7 +17,7 @@ function render($view, $data = []) {
     return $output;
 }
 
-function render_view($view, $data = []) {
+function view($view, $data = []) {
     $result = render($view, $data);
 
     flash()->clear();

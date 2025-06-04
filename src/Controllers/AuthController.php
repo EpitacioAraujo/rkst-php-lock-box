@@ -13,7 +13,7 @@ class AuthController
     {
         $action = ltrim($_SERVER['PATH_INFO'], '/');
 
-        return render_view('pages/auth/auth', [
+        return view('pages/auth/auth', [
             "action" => $action
         ]);
     }
@@ -77,7 +77,7 @@ class AuthController
             session()->push('auth', $usuario);
             flash()->push('Global.Message.Success', "Seja bem vindo " . $usuario->nome . "!");
 
-            redirect("/");
+            redirect("/dashboard");
         }
     }
 
