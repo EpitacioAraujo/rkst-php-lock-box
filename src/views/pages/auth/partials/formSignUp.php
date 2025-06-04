@@ -2,7 +2,7 @@
 
     use Epitas\App\views\components\input\InputDTO;
 
-    $fields = flash()->get('Auth.SignUp.Fields', []);
+    $defaultValues = flash()->get('Auth.SignUp.Fields', []);
     $validations = flash()->get('Auth.SignUp.Validations', []);
 
     $messageSuccess = flash()->get('Auth.SignUp.Message.Success');
@@ -38,15 +38,9 @@
     <p class="text-base-100 inline">Já possui cadastro? Faça seu</p> <a href="/signin" class="text-base-100 underline">login</a> <p class="text-base-100 inline">aqui!</p>
 </div>
 
-<?php if ($messageSuccess && strlen($messageSuccess)): ?>
-    <div class="m-3 border-2 border-green-400 bg-green-800 text-green-400 p-2 rounded-md">
-        <?= $messageSuccess ?>
-    </div>
-
-    <hr class="w-full my-3 border-stone-800" />
-<?php endif; ?>
-
 <?php if ($messageError && strlen($messageError)): ?>
+    <hr class="w-full my-3 border-stone-800" />
+
     <div class="m-3 border-2 border-red-400 bg-red-800 text-red-400 p-2 rounded-md">
         <?= $messageError ?>
     </div>
@@ -54,7 +48,7 @@
     <hr class="w-full my-3 border-stone-800" />
 <?php endif; ?>
 
-<form class="flex flex-col gap-3 mt-3" method="post" action="/auth/signup">
+<form class="flex flex-col gap-3 mt-3 text-black" method="post" action="/auth/signup">
     <?php
         foreach ($signup_fields as $field => $field_config):
             [
