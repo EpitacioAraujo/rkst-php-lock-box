@@ -1,4 +1,7 @@
 <?php
+
+    use Epitas\App\views\components\input\InputDTO;
+
     $fields = flash()->get('Auth.SignUp.Fields', []);
     $validations = flash()->get('Auth.SignUp.Validations', []);
 
@@ -29,9 +32,13 @@
     ];
 ?>
 
-<?php 
-    if ($messageSuccess && strlen($messageSuccess)): 
-?>
+<div >
+    <p class="text-xl text-base-100">Bem vindo ao <strong>lock box</strong></p>
+
+    <p class="text-base-100 inline">Já possui cadastro? Faça seu</p> <a href="/signin" class="text-base-100 underline">login</a> <p class="text-base-100 inline">aqui!</p>
+</div>
+
+<?php if ($messageSuccess && strlen($messageSuccess)): ?>
     <div class="m-3 border-2 border-green-400 bg-green-800 text-green-400 p-2 rounded-md">
         <?= $messageSuccess ?>
     </div>
@@ -39,7 +46,15 @@
     <hr class="w-full my-3 border-stone-800" />
 <?php endif; ?>
 
-<form class="p-3 flex flex-col gap-3" method="post" action="/auth/signup">
+<?php if ($messageError && strlen($messageError)): ?>
+    <div class="m-3 border-2 border-red-400 bg-red-800 text-red-400 p-2 rounded-md">
+        <?= $messageError ?>
+    </div>
+
+    <hr class="w-full my-3 border-stone-800" />
+<?php endif; ?>
+
+<form class="flex flex-col gap-3 mt-3" method="post" action="/auth/signup">
     <?php
         foreach ($signup_fields as $field => $field_config):
             [
@@ -48,40 +63,35 @@
                 "type" => $field_type
             ] = $field_config;
 
-        $error_message = "";
-        $input_class = "border-stone-800";
-        $value = "";
+            $error_message = "";
+            $input_class = "";
+            $value = "";
 
-        if (isset($validations[$field_name]) && sizeof($validations[$field_name]) > 0) {
-            $error_message = $validations[$field_name][0] . "*";
-            $input_class = "border-red-600";
-        }
+            if (isset($validations[$field_name]) && sizeof($validations[$field_name]) > 0) {
+                $error_message = $validations[$field_name][0];
+                $input_class = "input-error";
+            }
 
-        if (isset($fields[$field_name])) {
-            $value = $fields[$field_name];
-        }
-    ?>
+            if (isset($defaultValues[$field_name])) {
+                $value = $defaultValues[$field_name];
+            }
 
-        <div class="flex flex-col gap-2">
-            <label for="<?= $field_name ?>">
-                <?= $field_label ?>
+            $dto = new InputDTO();
+            $dto->id = $field_name;
+            $dto->label = $field_label;
+            $dto->name = $field_name;
+            $dto->type = $field_type;
+            $dto->value = $value;
+            $dto->css = $input_class;
+            $dto->error_message = $error_message;
+        ?>
 
-                <span class="text-red-700 text-sm">
-                    <?= $error_message ?>
-                </span>
-            </label>
-
-            <input
-                id="<?= $field_name ?>"
-                type="<?= $field_type ?>"
-                name="<?= $field_name ?>"
-                value="<?= $value ?>"
-                class="border-2 bg-stone-900 rounded-md focus:outline-none text-md px-2 py-1 <?= $input_class ?>" />
-        </div>
+        <?= render('components/input/input', [
+            "dto" => $dto
+        ]) ?>
     <?php endforeach; ?>
 
-    <div>
-        <button type="reset" class="btn btn-secondary">Cancel</button>
-        <button type="submit" class="btn">Register</button>
+    <div class="mt-3 flex items-center gap-3">
+        <button type="submit" class="btn">Registrar-me!</button>
     </div>
 </form>

@@ -1,5 +1,8 @@
 <?php
-    $message = flash()->get(key: 'Auth.SignIn.Message.Error');
+
+    use Epitas\App\views\components\input\InputDTO;
+
+    $error_message = flash()->get(key: 'Auth.SignIn.Message.Error');
     $validations = flash()->get(key: 'Auth.SignIn.Validations', defaultValue: []);
     $defaultValues = flash()->get(key: 'Auth.SignIn.Fields', defaultValue: []);
 
@@ -17,10 +20,10 @@
     ];
 ?>
 
-<form class="flex flex-col gap-3" method="post" action="/auth/signin">
-    <?php if ($message && strlen($message)): ?>
+<form class="flex flex-col" method="post" action="/auth/signin">
+    <?php if ($error_message && strlen($error_message)): ?>
         <div class="text-red-800">
-            <?= $message ?>
+            <?= $error_message ?>
         </div>
     <?php endif; ?>
     
@@ -33,38 +36,38 @@
             ] = $field_config;
 
             $error_message = "";
-            $input_class = "border-stone-800";
+            $input_class = "";
             $value = "";
 
             if (isset($validations[$field_name]) && sizeof($validations[$field_name]) > 0) {
                 $error_message = $validations[$field_name][0];
-                $input_class = "border-red-600";
+                $input_class = "input-error";
             }
 
             if (isset($defaultValues[$field_name])) {
                 $value = $defaultValues[$field_name];
             }
+
+            $dto = new InputDTO();
+            $dto->id = $field_name;
+            $dto->label = $field_label;
+            $dto->name = $field_name;
+            $dto->type = $field_type;
+            $dto->value = $value;
+            $dto->css = $input_class;
+            $dto->error_message = $error_message;
         ?>
 
         <div class="flex flex-col gap-2">
-            <label for="<?= $field_name ?>">
-                <?= $field_label ?>
-
-                <span class="text-red-700 text-sm">
-                    <?= $error_message ?>
-                </span>
-            </label>
-
-            <input
-                id="<?= $field_name ?>"
-                type="<?= $field_type ?>"
-                name="<?= $field_name ?>"
-                value="<?= $value ?>"
-                class="border-2 bg-stone-900 rounded-md focus:outline-none text-md px-2 py-1 <?= $input_class ?>" />
+            <?= render('components/input/input', compact("dto")) ?>
         </div>
     <?php endforeach; ?>
 
-    <div>
-        <button type="submit" class="btn">Sign In</button>
-    </div>
+    <button type="submit" class="mt-3 btn">Entrar</button>
+    <p class="mt-1 text-sm text-base-100 text-center">Seus dados estão bem guardados e seguros!</p>
+
+    <hr class="my-5 w-full border-b-1 border-base-100" />
+
+    <p class="text-sm text-base-100 text-center">Não possui uma conta ainda?!</p>
+    <a href="/signup" class="mt-1 btn btn-neutral btn-outline">Crie uma conta GRÁTIS!</a>
 </form>

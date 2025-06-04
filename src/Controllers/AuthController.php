@@ -11,10 +11,10 @@ class AuthController
 {
     public static function auth()
     {
-        $message = $_GET['message'] ?? null;
+        $action = ltrim($_SERVER['PATH_INFO'], '/');
 
         return render_view('pages/auth/auth', [
-            'message' => $message
+            "action" => $action
         ]);
     }
 
@@ -32,12 +32,11 @@ class AuthController
         ]);
 
         if($validacao->failed()) {
-            flash()->push('Auth.SignIn.Validacoes', $validacao->validacoes);
+            flash()->push('Auth.SignIn.Validations', $validacao->validacoes);
             flash()->push('Auth.SignIn.Fields', [
                 "email" => $email
             ]);
-            header("Location: /auth");
-            exit();
+            redirect("/signin");
         }
 
         $query = <<<SQL
@@ -59,8 +58,7 @@ class AuthController
                 "senha" => ""
             ]);
 
-            header("Location: /auth");
-            exit();
+            redirect("/signin");
         }
 
         $passIsValid = password_verify($password, $usuario->senha);
@@ -72,16 +70,14 @@ class AuthController
                 "senha" => ""
             ]);
 
-            header("Location: /auth");
-            exit();
+            redirect("/signin");
         }
 
         if($usuario) {
             session()->push('auth', $usuario);
             flash()->push('Global.Message.Success', "Seja bem vindo " . $usuario->nome . "!");
 
-            header("Location: /");
-            exit();
+            redirect("/");
         }
     }
 
@@ -103,8 +99,7 @@ class AuthController
                 ]);
                 flash()->push('Auth.SignUp.Validations', $validacao->validacoes);
 
-                header('Location: /auth');
-                exit();
+                redirect('/signup');
             }
 
             $sql = <<<SQL
@@ -123,18 +118,16 @@ class AuthController
 
             flash()->push('Auth.SignUp.Message.Success', 'Cadastrado com sucesso!');
 
-            header('Location: /auth');
-            exit();
+            redirect('/signup');
         }catch(Exception $ex) {
+            dd($ex);
             flash()->push('Global.Message.Error', 'Um erro inesperado ocorreu!');
-            header('Location: /auth');
-            exit();
+            redirect('/signup');
         }
     }
 
     public static function signOut() {
         session_destroy();
-        header("Location: /");
-        exit();
+        redirect("/");
     }
 }

@@ -1,14 +1,14 @@
 <div class="hero min-h-screen flex max-w-screen-lg mx-auto">
     <div class="hero-content flex-col lg:flex-row-reverse">
-        <div>
+        <div class="text-3xl">
             <p>Bem vindo ao</p>
-            <h1 class="text-5xl font-bold">Lock box</h1>
+            <h1 class="text-8xl font-bold">Lock box</h1>
             <p class="py-6">
-                Onde você guarda <strong>tudo</strong> com segurança
+                Onde você guarda <stron class="text-5xl">tudo</stron> com segurança
             </p>
 
-            <button class="btn btn-link">Sign in</button>
-            <button class="btn btn-link">Sign up</button>
+            <a href="/signin" class="btn btn-link">Entrar</a>
+            <a href="/signup" class="btn btn-link">Cadastrar-se</a>
         </div>
     </div>
 </div>
