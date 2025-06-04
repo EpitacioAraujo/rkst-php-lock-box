@@ -1,1 +1,1 @@
-dashboard
+<?= render('pages/dashboard/partials/navbar') ?>
