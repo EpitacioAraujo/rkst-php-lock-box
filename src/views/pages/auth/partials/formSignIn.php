@@ -54,14 +54,14 @@
                 $value = $defaultValues[$field_name];
             }
 
-            $dto = new InputDTO();
-            $dto->id = $field_name;
-            $dto->label = $field_label;
-            $dto->name = $field_name;
-            $dto->type = $field_type;
-            $dto->value = $value;
-            $dto->css = $input_class;
-            $dto->error_message = $error_message;
+            $dto = new InputDTO()
+                ->id( value: $field_name)
+                ->label( value: $field_label)
+                ->name( value: $field_name)
+                ->type( value: $field_type)
+                ->value( value: $value)
+                ->css( value: "text-slate-800 {$input_class}")
+                ->error_message( value: $error_message);
         ?>
 
         <div class="flex flex-col gap-2">
