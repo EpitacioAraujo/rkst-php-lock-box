@@ -21,8 +21,8 @@ class InputDTO
         $this->name = $identifyer;
     }
 
-    public function id ($id){
-        $this->id = $id;
+    public function id ($value){
+        $this->id = $value;
         return $this;
     }
     public function label ($value){
